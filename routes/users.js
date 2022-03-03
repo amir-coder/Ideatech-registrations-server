@@ -8,4 +8,5 @@ let router  = new express.Router();
 
 router.get('/', usersController.getAllUsers);
 router.post('/add', usersController.addUser);
-module.exports(router);
+router.put('/checkin', usersController.checkIn);
+module.exports= router;

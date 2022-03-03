@@ -26,7 +26,7 @@ app.get('/', function(req, res){
 })
 
 app.listen(PORT, function(){
-    console.log(`server runnung on port localhost:${PORT}`);
+    console.log(`server running on port localhost:${PORT}`);
     //connecting to the db
     db = mongoose.connect(CONNECTIONURL, {useUnifiedTopology: true, useNewUrlParser: true});
     mongoose.connection.once('open', function(){
