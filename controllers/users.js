@@ -39,9 +39,14 @@ module.exports.getById = async (req, res)=>{
 module.exports.addUser = async (req, res) => {
     try{
         //verify information here
-        await usersDB.create(req.body);
+        //check if user exists
+        if(await usersDB.findOne({email: req.body.email})){
+            res.status(400).send({error: 'User Already saved'});
+        }
+        user = await usersDB.create(req.body);
         console.log('LOG: creating user');
-        res.status(200).send('User created.');
+        user = user.toJson();
+        res.status(200).send(user._id);
     }catch(err){
         console.log('LOG: user creation failed '+ err);
         res.status(500).send(err);
@@ -54,10 +59,17 @@ module.exports.checkIn = async (req, res) => {
     try{
         const user = await usersDB.findOne({'_id': req.body._id});
         console.log('LOG: getting user');
-        user.checkedIn = true;
-        await user.save();
-        console.log('LOG: user saved');
-        res.status(200).send(user); 
+        if(user.length ===0){
+            //user not found
+            console.log('User not found');
+            res.status(250).send(user);
+        }else{
+            //user found
+            user.checkedIn = true;
+            await user.save();
+            console.log('LOG: user saved');
+            res.status(200).send(user); 
+        }
     }catch(err){
         console.log('Cannot register user as checked-In' + err);
         res.status(500).send(err);
