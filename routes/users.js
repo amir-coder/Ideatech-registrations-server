@@ -9,4 +9,6 @@ let router  = new express.Router();
 router.get('/', usersController.getAllUsers);
 router.post('/add', usersController.addUser);
 router.put('/checkin', usersController.checkIn);
+router.delete('/competition');
+router.delete('/workshop');
 module.exports= router;

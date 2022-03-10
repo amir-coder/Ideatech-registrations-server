@@ -20,7 +20,7 @@ const usersSchema = new mongoose.Schema({
     },
     role:{
         type: String,
-        enum:['trainer', 'orgenizer', 'in_comp', 'in_workshop'],
+        enum:['trainer', 'orgenizer', 'in_comp', 'in_workshop', 'vip'],
         default:'in_comp',
     },
     workshop:{
@@ -30,7 +30,7 @@ const usersSchema = new mongoose.Schema({
     },
     team: {
         type: String,
-        default: 'Without team',
+        default: 'no_team',
     }
 },{
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

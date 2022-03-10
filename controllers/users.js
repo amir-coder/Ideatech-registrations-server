@@ -8,8 +8,8 @@ const usersDB = require('../models/db_users');
 module.exports.getAllUsers = async (req, res)=>{
     try{
         //get info
-        const allUsers = await usersDB.find();
-        console.log('LOGS:Getting users info ...');
+        const allUsers = await usersDB.find(req.headers);
+        console.log('LOGS:body: ' + req.headers._id +' Getting users info ...');
         res.status(200).send(allUsers);
     }catch(err){
         console.log('LOGS:Getting all users failed' +  err);
@@ -21,32 +21,23 @@ module.exports.getAllUsers = async (req, res)=>{
 
 //export async callback function that takes a req and reponse as parameters 
 //and then retrieve info by using usersDB
-
-module.exports.getById = async (req, res)=>{
-    try{
-        //get info
-        const user = await usersDB.find({"_id": req.body._id});
-        console.log(`LOGS:Getting user's info ...`);
-        res.status(200).send(user);
-    }catch(err){
-        console.log('LOGS:Getting user info failed' +  err);
-        res.status(500).send(err);
-    }
-};
-
 //adding a user
 
 module.exports.addUser = async (req, res) => {
     try{
         //verify information here
+        user = await usersDB.findOne({"email": req.body.email})
         //check if user exists
-        if(await usersDB.findOne({email: req.body.email})){
-            res.status(400).send({error: 'User Already saved'});
+        if(user){
+            console.log('LOG: user found in adding controller ' + user)
+            res.status(400).send({"error": 'User Already saved', "_id": user._id});
+        }else{
+            console.log('LOG: here')
+            user = await usersDB.create(req.body);
+            console.log('LOG: creating user');
+            console.log('LOG: user info' + user)
+            res.status(200).send({"_id": user._id});
         }
-        user = await usersDB.create(req.body);
-        console.log('LOG: creating user');
-        user = user.toJson();
-        res.status(200).send(user._id);
     }catch(err){
         console.log('LOG: user creation failed '+ err);
         res.status(500).send(err);
