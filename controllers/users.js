@@ -9,7 +9,7 @@ module.exports.getAllUsers = async (req, res)=>{
     try{
         //get info
         const allUsers = await usersDB.find(req.headers);
-        console.log('LOGS:body: ' + req.headers._id +' Getting users info ...');
+        console.log('LOGS:body: ' + req.headers +' Getting users info ...');
         res.status(200).send(allUsers);
     }catch(err){
         console.log('LOGS:Getting all users failed' +  err);
