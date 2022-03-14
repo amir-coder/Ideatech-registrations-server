@@ -17,10 +17,7 @@ module.exports.getAllUsers = async (req, res)=>{
     }
 };
 
-// get user by id
 
-//export async callback function that takes a req and reponse as parameters 
-//and then retrieve info by using usersDB
 //adding a user
 
 module.exports.addUser = async (req, res) => {
